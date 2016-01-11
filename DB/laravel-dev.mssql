@@ -1,0 +1,673 @@
+-- phpMyAdmin SQL Dump
+-- version 4.4.12
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jan 10, 2016 at 01:11 AM
+-- Server version: 5.6.26
+-- PHP Version: 5.5.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `laravel-dev`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `alerts`
+--
+
+CREATE TABLE IF NOT EXISTS `alerts` (
+  `id` bigint(20) unsigned NOT NULL,
+  `post_id` bigint(20) unsigned NOT NULL,
+  `reason` bigint(20) unsigned NOT NULL,
+  `explanation` text COLLATE utf8_unicode_ci NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blogrolls`
+--
+
+CREATE TABLE IF NOT EXISTS `blogrolls` (
+  `id` bigint(20) unsigned NOT NULL,
+  `blog` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `url` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookmarks`
+--
+
+CREATE TABLE IF NOT EXISTS `bookmarks` (
+  `id` bigint(20) unsigned NOT NULL,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `post_id` bigint(20) unsigned NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contributions`
+--
+
+CREATE TABLE IF NOT EXISTS `contributions` (
+  `id` bigint(20) unsigned NOT NULL,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `amount` bigint(20) NOT NULL,
+  `note` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `transaction_id` bigint(20) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `monthly` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hide_reasons`
+--
+
+CREATE TABLE IF NOT EXISTS `hide_reasons` (
+  `id` bigint(20) unsigned NOT NULL,
+  `reason` bigint(20) NOT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ips`
+--
+
+CREATE TABLE IF NOT EXISTS `ips` (
+  `id` bigint(20) unsigned NOT NULL,
+  `ipv4` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `ipv6` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `last_seen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `banned` tinyint(1) NOT NULL DEFAULT '0',
+  `banned_reason` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `banned_time` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `JPR_mails`
+--
+
+CREATE TABLE IF NOT EXISTS `JPR_mails` (
+  `id` bigint(20) unsigned NOT NULL,
+  `from_id` bigint(20) unsigned NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `sent` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `response_to` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `JPR_mail_sends`
+--
+
+CREATE TABLE IF NOT EXISTS `JPR_mail_sends` (
+  `id` bigint(20) unsigned NOT NULL,
+  `mail_id` bigint(20) unsigned NOT NULL,
+  `to` bigint(20) unsigned NOT NULL,
+  `opened` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jury_votes`
+--
+
+CREATE TABLE IF NOT EXISTS `jury_votes` (
+  `id` bigint(20) unsigned NOT NULL,
+  `post_id` bigint(20) unsigned NOT NULL,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `guilty` tinyint(1) NOT NULL,
+  `comment` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `members`
+--
+
+CREATE TABLE IF NOT EXISTS `members` (
+  `id` bigint(20) unsigned NOT NULL,
+  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `first` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `last` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `avatar` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `signature` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `joined` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `quote` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `group` bigint(20) NOT NULL,
+  `last_login` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `pw_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `banned` tinyint(1) NOT NULL DEFAULT '0',
+  `banned_reason` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `banned_time` timestamp NULL DEFAULT NULL,
+  `paid_member_expire` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `migrations`
+--
+
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`migration`, `batch`) VALUES
+('2014_10_12_000000_create_users_table', 1),
+('2014_10_12_100000_create_password_resets_table', 1),
+('2016_01_06_170500_create_members_table', 1),
+('2016_01_06_170501_create_posts_table', 1),
+('2016_01_06_170503_create_hidereasons_table', 1),
+('2016_01_06_170520_create_topics_table', 1),
+('2016_01_06_170643_create_alerts_table', 1),
+('2016_01_06_170720_create_blogrolls_table', 1),
+('2016_01_06_170734_create_bookmarks_table', 1),
+('2016_01_06_170757_create_contributions_table', 1),
+('2016_01_06_170835_create_ips_table', 1),
+('2016_01_06_170901_create_JPRMails_table', 1),
+('2016_01_06_170907_create_JPRMailSends_table', 1),
+('2016_01_06_170929_create_juryVotes_table', 1),
+('2016_01_06_171014_create_moderators_table', 1),
+('2016_01_06_171036_create_postEdits_table', 1),
+('2016_01_09_170822_create_recommendations_table', 1),
+('2016_01_09_170845_create_special_posts_table', 1),
+('2016_01_09_170902_create_subcriptions_table', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `moderators`
+--
+
+CREATE TABLE IF NOT EXISTS `moderators` (
+  `id` bigint(20) unsigned NOT NULL,
+  `topic_id` bigint(20) unsigned NOT NULL,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_resets`
+--
+
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `posts`
+--
+
+CREATE TABLE IF NOT EXISTS `posts` (
+  `id` bigint(20) unsigned NOT NULL,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `topic` bigint(20) NOT NULL,
+  `response_to_post` bigint(20) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `pinned` tinyint(1) NOT NULL DEFAULT '0',
+  `self_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `self_deleted_time` timestamp NULL DEFAULT NULL,
+  `locked` tinyint(1) NOT NULL DEFAULT '0',
+  `locked_time` timestamp NULL DEFAULT NULL,
+  `locked_reason` bigint(20) DEFAULT NULL,
+  `source` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `read_more` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `hidden` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post_edits`
+--
+
+CREATE TABLE IF NOT EXISTS `post_edits` (
+  `id` bigint(20) unsigned NOT NULL,
+  `post_id` bigint(20) unsigned NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `reason` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `recommendations`
+--
+
+CREATE TABLE IF NOT EXISTS `recommendations` (
+  `id` bigint(20) unsigned NOT NULL,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `post_id` bigint(20) unsigned NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `special_posts`
+--
+
+CREATE TABLE IF NOT EXISTS `special_posts` (
+  `id` bigint(20) unsigned NOT NULL,
+  `post_id` bigint(20) unsigned NOT NULL,
+  `reason` bigint(20) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subscriptions`
+--
+
+CREATE TABLE IF NOT EXISTS `subscriptions` (
+  `id` bigint(20) unsigned NOT NULL,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `topic_id` bigint(20) unsigned NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `topics`
+--
+
+CREATE TABLE IF NOT EXISTS `topics` (
+  `id` bigint(20) unsigned NOT NULL,
+  `parent_topic` bigint(20) NOT NULL,
+  `topic` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `type` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `alerts`
+--
+ALTER TABLE `alerts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `alerts_reason_index` (`reason`),
+  ADD KEY `alerts_post_id_index` (`post_id`);
+
+--
+-- Indexes for table `blogrolls`
+--
+ALTER TABLE `blogrolls`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `bookmarks`
+--
+ALTER TABLE `bookmarks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bookmarks_member_id_index` (`member_id`),
+  ADD KEY `bookmarks_post_id_index` (`post_id`);
+
+--
+-- Indexes for table `contributions`
+--
+ALTER TABLE `contributions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `contributions_member_id_index` (`member_id`);
+
+--
+-- Indexes for table `hide_reasons`
+--
+ALTER TABLE `hide_reasons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `hide_reasons_reason_index` (`reason`);
+
+--
+-- Indexes for table `ips`
+--
+ALTER TABLE `ips`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ips_member_id_index` (`member_id`);
+
+--
+-- Indexes for table `JPR_mails`
+--
+ALTER TABLE `JPR_mails`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jpr_mails_from_id_index` (`from_id`);
+
+--
+-- Indexes for table `JPR_mail_sends`
+--
+ALTER TABLE `JPR_mail_sends`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jpr_mail_sends_mail_id_index` (`mail_id`),
+  ADD KEY `jpr_mail_sends_to_index` (`to`);
+
+--
+-- Indexes for table `jury_votes`
+--
+ALTER TABLE `jury_votes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jury_votes_member_id_index` (`member_id`),
+  ADD KEY `jury_votes_post_id_index` (`post_id`);
+
+--
+-- Indexes for table `members`
+--
+ALTER TABLE `members`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `moderators`
+--
+ALTER TABLE `moderators`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `moderators_member_id_index` (`member_id`),
+  ADD KEY `moderators_topic_id_index` (`topic_id`);
+
+--
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`),
+  ADD KEY `password_resets_token_index` (`token`);
+
+--
+-- Indexes for table `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `posts_id_index` (`id`),
+  ADD KEY `posts_member_id_index` (`member_id`);
+
+--
+-- Indexes for table `post_edits`
+--
+ALTER TABLE `post_edits`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `post_edits_id_index` (`id`),
+  ADD KEY `post_edits_post_id_index` (`post_id`);
+
+--
+-- Indexes for table `recommendations`
+--
+ALTER TABLE `recommendations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `recommendations_member_id_index` (`member_id`),
+  ADD KEY `recommendations_post_id_index` (`post_id`);
+
+--
+-- Indexes for table `special_posts`
+--
+ALTER TABLE `special_posts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `special_posts_post_id_index` (`post_id`);
+
+--
+-- Indexes for table `subscriptions`
+--
+ALTER TABLE `subscriptions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `subscriptions_member_id_index` (`member_id`),
+  ADD KEY `subscriptions_topic_id_index` (`topic_id`);
+
+--
+-- Indexes for table `topics`
+--
+ALTER TABLE `topics`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `alerts`
+--
+ALTER TABLE `alerts`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `blogrolls`
+--
+ALTER TABLE `blogrolls`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `bookmarks`
+--
+ALTER TABLE `bookmarks`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `contributions`
+--
+ALTER TABLE `contributions`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `hide_reasons`
+--
+ALTER TABLE `hide_reasons`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ips`
+--
+ALTER TABLE `ips`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `JPR_mails`
+--
+ALTER TABLE `JPR_mails`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `JPR_mail_sends`
+--
+ALTER TABLE `JPR_mail_sends`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `jury_votes`
+--
+ALTER TABLE `jury_votes`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `members`
+--
+ALTER TABLE `members`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `moderators`
+--
+ALTER TABLE `moderators`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `post_edits`
+--
+ALTER TABLE `post_edits`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `recommendations`
+--
+ALTER TABLE `recommendations`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `special_posts`
+--
+ALTER TABLE `special_posts`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `subscriptions`
+--
+ALTER TABLE `subscriptions`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `topics`
+--
+ALTER TABLE `topics`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `alerts`
+--
+ALTER TABLE `alerts`
+  ADD CONSTRAINT `alerts_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `alerts_reason_foreign` FOREIGN KEY (`reason`) REFERENCES `hide_reasons` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `bookmarks`
+--
+ALTER TABLE `bookmarks`
+  ADD CONSTRAINT `bookmarks_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bookmarks_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `contributions`
+--
+ALTER TABLE `contributions`
+  ADD CONSTRAINT `contributions_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `ips`
+--
+ALTER TABLE `ips`
+  ADD CONSTRAINT `ips_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `JPR_mails`
+--
+ALTER TABLE `JPR_mails`
+  ADD CONSTRAINT `jpr_mails_from_id_foreign` FOREIGN KEY (`from_id`) REFERENCES `members` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `JPR_mail_sends`
+--
+ALTER TABLE `JPR_mail_sends`
+  ADD CONSTRAINT `jpr_mail_sends_mail_id_foreign` FOREIGN KEY (`mail_id`) REFERENCES `JPR_mails` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `jpr_mail_sends_to_foreign` FOREIGN KEY (`to`) REFERENCES `members` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `jury_votes`
+--
+ALTER TABLE `jury_votes`
+  ADD CONSTRAINT `jury_votes_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `jury_votes_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `moderators`
+--
+ALTER TABLE `moderators`
+  ADD CONSTRAINT `moderators_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `moderators_topic_id_foreign` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `posts`
+--
+ALTER TABLE `posts`
+  ADD CONSTRAINT `posts_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `post_edits`
+--
+ALTER TABLE `post_edits`
+  ADD CONSTRAINT `post_edits_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `recommendations`
+--
+ALTER TABLE `recommendations`
+  ADD CONSTRAINT `recommendations_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `recommendations_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `special_posts`
+--
+ALTER TABLE `special_posts`
+  ADD CONSTRAINT `special_posts_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `subscriptions`
+--
+ALTER TABLE `subscriptions`
+  ADD CONSTRAINT `subscriptions_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `subscriptions_topic_id_foreign` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`) ON DELETE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
