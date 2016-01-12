@@ -18,12 +18,12 @@ class CreateMembersTable extends Migration
             $table->string('first');
             $table->string('last');
             $table->string('email');
-            $table->string('avatar');
-            $table->string('signature');
+            $table->string('avatar')->nullable();
+            $table->string('signature')->nullable();
             $table->timestamp('joined');
-            $table->string('quote');
+            $table->string('quote')->nullable();
             $table->bigInteger('group');
-            $table->timestamp('last_login');
+            $table->timestamp('last_login')->nullable();
             $table->string('pw_hash');
             $table->boolean('banned')->default(false);
             $table->string('banned_reason')->nullable();
